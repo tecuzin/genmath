@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import './App.css';
+import Timer from './components/Timer';
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -42,7 +43,10 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Table de multiplication</h1>
+      <div className="header">
+        <h1>Table de multiplication</h1>
+        <Timer />
+      </div>
       <table>
         <thead>
           <tr>
