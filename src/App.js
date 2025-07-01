@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
+
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 function App() {
   const size = 10;
   const [answers, setAnswers] = useState({});
 
-  const handleChange = (row, col, event) => {
+  const numbers = useMemo(() => {
+    const nums = Array.from({ length: size }, (_, i) => i);
+    return {
+      rows: shuffleArray(nums),
+      cols: shuffleArray(nums)
+    };
+  }, []);
+
+  const handleChange = (rowIndex, colIndex, event) => {
     const value = event.target.value;
+    const row = numbers.rows[rowIndex];
+    const col = numbers.cols[colIndex];
     setAnswers(prev => ({
       ...prev,
       [`${row}-${col}`]: value,
     }));
   };
 
-  const isCorrect = (row, col) => {
+  const isCorrect = (rowIndex, colIndex) => {
+    const row = numbers.rows[rowIndex];
+    const col = numbers.cols[colIndex];
     const key = `${row}-${col}`;
     const val = answers[key];
     return val !== undefined && parseInt(val, 10) === row * col;
@@ -26,26 +47,26 @@ function App() {
         <thead>
           <tr>
             <th></th>
-            {Array.from({ length: size }, (_, col) => (
-              <th key={col}>{col}</th>
+            {numbers.cols.map((col, index) => (
+              <th key={index}>{col}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: size }, (_, row) => (
-            <tr key={row}>
+          {numbers.rows.map((row, rowIndex) => (
+            <tr key={rowIndex}>
               <th>{row}</th>
-              {Array.from({ length: size }, (_, col) => {
+              {numbers.cols.map((col, colIndex) => {
                 const key = `${row}-${col}`;
                 const answer = answers[key] || '';
-                const correct = isCorrect(row, col);
+                const correct = isCorrect(rowIndex, colIndex);
                 const show = answer !== '';
                 return (
-                  <td key={col}>
+                  <td key={colIndex}>
                     <input
                       type="number"
                       value={answer}
-                      onChange={e => handleChange(row, col, e)}
+                      onChange={e => handleChange(rowIndex, colIndex, e)}
                       className={show ? (correct ? 'correct' : 'wrong') : ''}
                     />
                   </td>
