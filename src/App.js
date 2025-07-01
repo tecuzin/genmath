@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import './App.css';
 import Timer from './components/Timer';
+import { config } from './config';
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -12,14 +13,12 @@ function shuffleArray(array) {
 }
 
 function App() {
-  const size = 10;
   const [answers, setAnswers] = useState({});
 
   const numbers = useMemo(() => {
-    const nums = Array.from({ length: size }, (_, i) => i);
     return {
-      rows: shuffleArray(nums),
-      cols: shuffleArray(nums)
+      rows: shuffleArray(Array.from({ length: config.rowSize }, (_, i) => i)),
+      cols: shuffleArray(Array.from({ length: config.columnSize }, (_, i) => i))
     };
   }, []);
 
