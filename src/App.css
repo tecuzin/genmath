@@ -78,9 +78,35 @@ body {
 .header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 2rem;
   margin-bottom: 2rem;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .timer {
@@ -91,6 +117,16 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-display {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+  min-width: 3ch;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .timer-controls {

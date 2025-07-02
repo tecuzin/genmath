@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Timer() {
+function Timer({ onReset }) {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
 
@@ -27,6 +27,7 @@ function Timer() {
   const resetTimer = () => {
     setTime(0);
     setIsRunning(true);
+    onReset();
   };
 
   return (

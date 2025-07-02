@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import './App.css';
 import Timer from './components/Timer';
+import Score from './components/Score';
 import { config } from './config';
 
 function shuffleArray(array) {
@@ -14,6 +15,7 @@ function shuffleArray(array) {
 
 function App() {
   const [answers, setAnswers] = useState({});
+  const [correctAnswers, setCorrectAnswers] = useState(0);
 
   const numbers = useMemo(() => {
     return {
@@ -26,10 +28,21 @@ function App() {
     const value = event.target.value;
     const row = numbers.rows[rowIndex];
     const col = numbers.cols[colIndex];
+    const key = `${row}-${col}`;
+    const previousAnswer = answers[key];
+    const wasCorrect = previousAnswer !== undefined && parseInt(previousAnswer, 10) === row * col;
+    const isNowCorrect = value !== '' && parseInt(value, 10) === row * col;
+
     setAnswers(prev => ({
       ...prev,
-      [`${row}-${col}`]: value,
+      [key]: value,
     }));
+
+    if (!wasCorrect && isNowCorrect) {
+      setCorrectAnswers(prev => prev + 1);
+    } else if (wasCorrect && !isNowCorrect) {
+      setCorrectAnswers(prev => prev - 1);
+    }
   };
 
   const isCorrect = (rowIndex, colIndex) => {
@@ -40,11 +53,20 @@ function App() {
     return val !== undefined && parseInt(val, 10) === row * col;
   };
 
+  const handleReset = () => {
+    setAnswers({});
+    setCorrectAnswers(0);
+  };
+
   return (
     <div className="container">
       <div className="header">
-        <h1>Table de multiplication</h1>
-        <Timer />
+        <Timer onReset={handleReset} />
+        <div className="title-container">
+          <h1>Table de multiplication</h1>
+          <Score correctAnswers={correctAnswers} />
+
+        </div>
       </div>
       <table>
         <thead>
