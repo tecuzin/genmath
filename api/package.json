@@ -1,0 +1,9 @@
+{
+  "name": "genmath-api",
+  "version": "1.0.0",
+  "description": "API for GenMath scores",
+  "main": "index.js",
+  "dependencies": {
+    "@azure/cosmos": "^3.17.3"
+  }
+} 

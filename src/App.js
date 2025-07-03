@@ -3,6 +3,7 @@ import './App.css';
 import Timer from './components/Timer';
 import Score from './components/Score';
 import { config } from './config';
+import { saveScore } from '../services/api';
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -58,14 +59,25 @@ function App() {
     setCorrectAnswers(0);
   };
 
+  const handleGameComplete = async () => {
+    try {
+      await saveScore({
+        correctAnswers: correctAnswers,
+        time: totalTime
+      });
+      // Gérer le succès
+    } catch (error) {
+      // Gérer l'erreur
+    }
+  };
+
   return (
     <div className="container">
       <div className="header">
-        <Timer onReset={handleReset} />
+        <Timer onReset={handleReset} correctAnswers={correctAnswers} />
         <div className="title-container">
           <h1>Table de multiplication</h1>
           <Score correctAnswers={correctAnswers} />
-
         </div>
       </div>
       <table>
